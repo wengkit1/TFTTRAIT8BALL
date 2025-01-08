@@ -24,59 +24,43 @@ struct SetData {
     champions: Vec<Champion>,
 }
 
-async fn fetch_tft_data() -> Result<serde_json::Value, Box<dyn std::error::Error>> {
+async fn fetch_tft_data() -> Result<Vec<Champion>, Box<dyn std::error::Error>> {
     let client = Client::new();
     let url = "https://raw.communitydragon.org/latest/cdragon/tft/en_us.json";
     let resp = client.get(url).send().await?;
-    println!("Got response status: {}", resp.status());
-
-    // Get just the first chunk
     let text = resp.text().await?;
-    println!(
-        "First 100 chars of response: {}",
-        &text[..100.min(text.len())]
-    );
-
     let data: serde_json::Value = serde_json::from_str(&text)?;
-    Ok(data)
-}
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Setup terminal
-    let mut stdout = stdout();
-    stdout.execute(EnterAlternateScreen)?;
-    terminal::enable_raw_mode()?;
-
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
-
-    // Just fetch and print data
-    let rt = tokio::runtime::Runtime::new()?;
-    println!("About to fetch data...");
-    let tft_data = rt.block_on(fetch_tft_data())?;
-    if let Some(sets) = tft_data.as_object() {
-        println!(
-            "Available keys: {:?}",
-            sets.keys().take(5).collect::<Vec<_>>()
-        );
-        // Maybe peek at first item's structure
-        if let Some(first_set) = sets.values().next() {
-            println!("\nFirst item structure: {:#?}", first_set);
-        }
-    }
-
-    // Wait for 'q' to quit
-    loop {
-        if let Event::Key(key) = event::read()? {
-            if key.code == KeyCode::Char('q') {
-                break;
+    // Navigate to Set 13 champions
+    if let Some(sets_obj) = data.get("sets") {
+        if let Some(set13) = sets_obj.get("13") {
+            if let Some(champions) = set13.get("champions") {
+                let champions: Vec<Champion> = serde_json::from_value(champions.clone())?;
+                // Filter out champions with empty traits
+                let filtered_champions: Vec<Champion> = champions
+                    .into_iter()
+                    .filter(|champion| !champion.traits.is_empty())
+                    .collect();
+                println!("Total champions with traits: {}", filtered_champions.len());
+                return Ok(filtered_champions);
             }
         }
     }
 
-    // Cleanup
-    terminal::disable_raw_mode()?;
-    terminal.backend_mut().execute(LeaveAlternateScreen)?;
+    Err("Could not find Set 13 champions".into())
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let rt = tokio::runtime::Runtime::new()?;
+    let champions = rt.block_on(fetch_tft_data())?;
+
+    // Print champions in a readable format
+    for champion in champions {
+        println!(
+            "Name: {}, Cost: {}, Traits: {:?}",
+            champion.name, champion.cost, champion.traits
+        );
+    }
 
     Ok(())
 }
