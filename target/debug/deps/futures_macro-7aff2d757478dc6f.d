@@ -1,0 +1,9 @@
+/Users/soowengkit/Desktop/Github/TFT_TRAIT8BALL/target/debug/deps/libfutures_macro-7aff2d757478dc6f.dylib: /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/lib.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/executor.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/join.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/select.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/stream_select.rs
+
+/Users/soowengkit/Desktop/Github/TFT_TRAIT8BALL/target/debug/deps/futures_macro-7aff2d757478dc6f.d: /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/lib.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/executor.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/join.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/select.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/stream_select.rs
+
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/lib.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/executor.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/join.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/select.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-macro-0.3.31/src/stream_select.rs:

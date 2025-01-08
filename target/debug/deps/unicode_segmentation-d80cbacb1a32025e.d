@@ -1,0 +1,9 @@
+/Users/soowengkit/Desktop/Github/TFT_TRAIT8BALL/target/debug/deps/libunicode_segmentation-d80cbacb1a32025e.rmeta: /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/lib.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/grapheme.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/sentence.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/word.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/tables.rs
+
+/Users/soowengkit/Desktop/Github/TFT_TRAIT8BALL/target/debug/deps/unicode_segmentation-d80cbacb1a32025e.d: /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/lib.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/grapheme.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/sentence.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/word.rs /Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/tables.rs
+
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/lib.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/grapheme.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/sentence.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/word.rs:
+/Users/soowengkit/.cargo/registry/src/index.crates.io-6f17d22bba15001f/unicode-segmentation-1.12.0/src/tables.rs:
