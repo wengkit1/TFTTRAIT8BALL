@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "crossterm",
  "futures",
+ "itertools 0.12.1",
  "ratatui",
  "reqwest",
  "serde",
@@ -617,6 +618,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -876,7 +886,7 @@ dependencies = [
  "cassowary",
  "crossterm",
  "indoc",
- "itertools",
+ "itertools 0.11.0",
  "lru",
  "paste",
  "strum",

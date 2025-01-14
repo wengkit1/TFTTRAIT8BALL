@@ -1,0 +1,143 @@
+[
+  {
+    "units": [
+      "Singed",
+      "Rumble",
+      "Sevika",
+      "Gangplank"
+    ],
+    "activated_traits": [
+      {
+        "name": "Scrap",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "High Roller",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Pit Fighter",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      }
+    ],
+    "total_traits_activated": 5
+  },
+  {
+    "units": [
+      "Malzahar",
+      "Rell",
+      "Rumble",
+      "Nocturne",
+      "Ambessa"
+    ],
+    "activated_traits": [
+      {
+        "name": "Automata",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Visionary",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Quickstriker",
+        "count": 2,
+        "breakpoint_hit": 2
+      }
+    ],
+    "total_traits_activated": 7
+  },
+  {
+    "units": [
+      "Rell",
+      "Rumble",
+      "Sevika",
+      "Nami",
+      "Gangplank",
+      "Swain"
+    ],
+    "activated_traits": [
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Scrap",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Form Swapper",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "High Roller",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Pit Fighter",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      }
+    ],
+    "total_traits_activated": 9
+  }
+]

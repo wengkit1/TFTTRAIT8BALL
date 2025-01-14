@@ -1,66 +1,37 @@
-use crossterm::{
-    event::{self, Event, KeyCode},
-    terminal::{self, EnterAlternateScreen, LeaveAlternateScreen},
-    ExecutableCommand,
-};
-use futures::StreamExt;
-use ratatui::{
-    prelude::*,
-    widgets::{Block, Borders, List, ListItem}, // Add these specific widgets
-};
-use reqwest::Client;
-use serde::{Deserialize, Serialize};
-use std::io::stdout;
+mod api;
+mod models;
+mod optimiser;
 
-#[derive(Debug, Deserialize)]
-struct Champion {
-    name: String,
-    traits: Vec<String>,
-    cost: u32,
-}
+use models::champions::OptimalComp;
+use std::fs;
 
-#[derive(Debug, Deserialize)]
-struct SetData {
-    champions: Vec<Champion>,
-}
-
-async fn fetch_tft_data() -> Result<Vec<Champion>, Box<dyn std::error::Error>> {
-    let client = Client::new();
-    let url = "https://raw.communitydragon.org/latest/cdragon/tft/en_us.json";
-    let resp = client.get(url).send().await?;
-    let text = resp.text().await?;
-    let data: serde_json::Value = serde_json::from_str(&text)?;
-
-    // Navigate to Set 13 champions
-    if let Some(sets_obj) = data.get("sets") {
-        if let Some(set13) = sets_obj.get("13") {
-            if let Some(champions) = set13.get("champions") {
-                let champions: Vec<Champion> = serde_json::from_value(champions.clone())?;
-                // Filter out champions with empty traits
-                let filtered_champions: Vec<Champion> = champions
-                    .into_iter()
-                    .filter(|champion| !champion.traits.is_empty())
-                    .collect();
-                println!("Total champions with traits: {}", filtered_champions.len());
-                return Ok(filtered_champions);
-            }
-        }
-    }
-
-    Err("Could not find Set 13 champions".into())
+fn save_results(comps: &[OptimalComp], filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let json = serde_json::to_string_pretty(comps)?;
+    fs::write(filename, json)?;
+    Ok(())
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Create runtime
     let rt = tokio::runtime::Runtime::new()?;
-    let champions = rt.block_on(fetch_tft_data())?;
 
-    // Print champions in a readable format
-    for champion in champions {
-        println!(
-            "Name: {}, Cost: {}, Traits: {:?}",
-            champion.name, champion.cost, champion.traits
+    // Run async functions inside runtime
+    let champions = rt.block_on(api::fetch::fetch_tft_data())?;
+    let traits = rt.block_on(api::fetch::fetch_trait_data())?;
+
+    println!("Champions loaded: {}", champions.len());
+
+    let mut optimal_comps = Vec::new();
+    for size in 7..=10 {
+        println!("Calculating optimal comp for size {}", size);
+        let core_units = &["Nami", "Gangplank", "Swain"];
+        let comp = optimiser::greedy::find_optimal_comp_greedy(
+            &champions, &traits, core_units, size, // This is the final team size we want
         );
+        optimal_comps.push(comp);
     }
+
+    save_results(&optimal_comps, "optimal_comps_2.json")?;
 
     Ok(())
 }
