@@ -6,6 +6,7 @@ pub fn find_optimal_comp_brute(
     champions: &[Champion],
     traits: &[Trait],
     team_size: usize,
+    trait_bonuses: &[(&str, u32)],
 ) -> OptimalComp {
     let mut best_comp = OptimalComp {
         units: Vec::new(),
@@ -14,7 +15,7 @@ pub fn find_optimal_comp_brute(
     };
 
     for team in champions.iter().combinations(team_size) {
-        let trait_activations = calculate_trait_activations(&team[..], traits);
+        let trait_activations = calculate_trait_activations(&team[..], traits, trait_bonuses);
         let total_active = trait_activations.len();
 
         if total_active > best_comp.total_traits_activated {

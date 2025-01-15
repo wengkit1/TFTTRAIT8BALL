@@ -1,13 +1,21 @@
 use crate::models::champions::{Champion, Trait, TraitActivation};
 use std::collections::HashMap;
 
-pub fn calculate_trait_activations(team: &[&Champion], traits: &[Trait]) -> Vec<TraitActivation> {
+pub fn calculate_trait_activations(
+    team: &[&Champion],
+    traits: &[Trait],
+    trait_bonuses: &[(&str, u32)],
+) -> Vec<TraitActivation> {
     let mut activated = Vec::new();
-    let mut trait_counts: HashMap<&String, usize> = HashMap::new();
+    let mut trait_counts: HashMap<String, usize> = HashMap::new();
+
+    for (trait_name, bonus) in trait_bonuses {
+        *trait_counts.entry((*trait_name).to_string()).or_insert(0) += *bonus as usize;
+    }
 
     for champ in team {
         for trait_name in &champ.traits {
-            *trait_counts.entry(trait_name).or_insert(0) += 1;
+            *trait_counts.entry(trait_name.clone()).or_insert(0) += 1;
         }
     }
 
