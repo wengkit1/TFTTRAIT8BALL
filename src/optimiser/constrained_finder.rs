@@ -11,20 +11,28 @@ pub fn find_optimal_comp_with_requirements(
     trait_requirements: &[(&str, usize)],
     trait_bonuses: &[(&str, u32)],
     max_cost: u32,
+    core_units: &[&str],
 ) -> Option<OptimalComp> {
     let total_required: usize = trait_requirements.iter().map(|(_, count)| count).sum();
 
-    if total_required > team_size {
+    if total_required + core_units.len() > team_size {
         return None;
     }
     let filtered_champs: Vec<Champion> = champions
         .iter()
         .filter(|c| c.cost <= max_cost)
+        .filter(|c| !core_units.contains(&c.name.as_str()))
         .cloned()
         .collect();
 
     if trait_requirements.is_empty() {
-        return find_optimal_comp_greedy(&filtered_champs, traits, &[], team_size, trait_bonuses);
+        return find_optimal_comp_greedy(
+            &filtered_champs,
+            traits,
+            core_units,
+            team_size,
+            trait_bonuses,
+        );
     }
 
     let mut best_comp = None;
@@ -72,7 +80,6 @@ pub fn find_optimal_comp_with_requirements(
         let mut required_champs = Vec::new();
         let mut valid = true;
 
-        // Check if this combination has duplicates
         for combo in combined_combo {
             for champ in combo {
                 if required_champs.contains(champ) {
@@ -87,7 +94,7 @@ pub fn find_optimal_comp_with_requirements(
         }
 
         if valid && required_champs.len() <= team_size {
-            let remaining_spots = team_size - required_champs.len();
+            let remaining_spots = team_size - required_champs.len() - core_units.len();
             let remaining_champs: Vec<Champion> = filtered_champs
                 .iter()
                 .filter(|c| !required_champs.iter().any(|rc| rc.name == c.name))
@@ -104,10 +111,15 @@ pub fn find_optimal_comp_with_requirements(
                 remaining_spots,
                 trait_bonuses,
             ) {
-                let all_units: Vec<String> = required_champs
+                let all_units: Vec<String> = core_units
                     .iter()
-                    .map(|c| c.name.clone())
-                    .chain(comp.units.into_iter())
+                    .map(|&name| name.to_string())
+                    .chain(
+                        required_champs
+                            .iter()
+                            .map(|c| c.name.clone())
+                            .chain(comp.units.into_iter()),
+                    )
                     .collect();
 
                 let activated = calculate_trait_activations(

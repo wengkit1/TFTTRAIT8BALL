@@ -19,16 +19,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut optimal_comps = Vec::new();
     for size in 7..=10 {
-        let _core_units = &["Nami", "Gangplank", "Swain"];
-        let trait_bonuses = &[];
-        let trait_requirements = &[("Conqueror", 2), ("Chem-Baron", 3)];
+        let core_units = &["Nami", "Gangplank", "Swain"];
+        let trait_bonuses = &[("Chem-Baron", 1)];
+        let trait_requirements = &[("Chem-Baron", 3)];
         let comp = find_optimal_comp_with_requirements(
             &champions,
             &traits,
             size,
             trait_requirements,
             trait_bonuses,
-            3,
+            5,
+            core_units,
         );
 
         optimal_comps.push(comp);

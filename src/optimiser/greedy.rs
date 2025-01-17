@@ -1,6 +1,5 @@
 use crate::models::champions::{Champion, OptimalComp, Trait, TraitActivation};
 use crate::optimiser::trait_calc::trait_activation::calculate_trait_activations;
-use itertools::Itertools;
 
 pub fn find_optimal_comp_greedy(
     champions: &[Champion],
