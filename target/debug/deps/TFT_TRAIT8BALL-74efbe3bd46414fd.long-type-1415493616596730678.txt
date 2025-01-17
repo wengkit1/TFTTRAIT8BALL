@@ -1,0 +1,1 @@
+std::iter::Chain<std::iter::Map<std::slice::Iter<'_, &str>, {closure@src/optimiser/constrained_finder.rs:116:26: 116:33}>, std::iter::Chain<std::iter::Map<std::slice::Iter<'_, &Champion>, {closure@src/optimiser/constrained_finder.rs:120:34: 120:37}>, std::vec::IntoIter<ChampionId>>>

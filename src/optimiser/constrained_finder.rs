@@ -1,35 +1,37 @@
-use crate::models::champions::{Champion, OptimalComp, Trait};
+use crate::models::champions::{Champion, ChampionId, ChampionPool, OptimalComp, Trait};
 use crate::optimiser::{
     greedy::find_optimal_comp_greedy, trait_calc::trait_activation::calculate_trait_activations,
 };
 use itertools::Itertools;
+use std::collections::HashMap;
 
 pub fn find_optimal_comp_with_requirements(
-    champions: &[Champion],
+    champion_pool: &ChampionPool,
     traits: &[Trait],
     team_size: usize,
     trait_requirements: &[(&str, usize)],
     trait_bonuses: &[(&str, u32)],
     max_cost: u32,
-    core_units: &[&str],
+    core_unit_ids: &[ChampionId],
 ) -> Option<OptimalComp> {
     let total_required: usize = trait_requirements.iter().map(|(_, count)| count).sum();
 
-    if total_required + core_units.len() > team_size {
+    if total_required + core_unit_ids.len() > team_size {
         return None;
     }
-    let filtered_champs: Vec<Champion> = champions
+
+    let filtered_champs: Vec<&Champion> = champion_pool
+        .all
         .iter()
         .filter(|c| c.cost <= max_cost)
-        .filter(|c| !core_units.contains(&c.name.as_str()))
-        .cloned()
+        .filter(|c| !core_unit_ids.contains(&c.id))
         .collect();
 
     if trait_requirements.is_empty() {
         return find_optimal_comp_greedy(
-            &filtered_champs,
+            champion_pool,
             traits,
-            core_units,
+            core_unit_ids,
             team_size,
             trait_bonuses,
         );
@@ -52,6 +54,7 @@ pub fn find_optimal_comp_with_requirements(
                 .iter()
                 .filter(|c| c.traits.contains(&trait_name.to_string()))
                 .filter(|c| c.cost <= max_cost)
+                .copied()
                 .collect();
 
             (trait_champions, actual_count)
@@ -94,39 +97,40 @@ pub fn find_optimal_comp_with_requirements(
         }
 
         if valid && required_champs.len() <= team_size {
-            let remaining_spots = team_size - required_champs.len() - core_units.len();
-            let remaining_champs: Vec<Champion> = filtered_champs
+            let remaining_spots = team_size - required_champs.len() - core_unit_ids.len();
+            let filtered_by_id: HashMap<ChampionId, Champion> = filtered_champs
                 .iter()
-                .filter(|c| !required_champs.iter().any(|rc| rc.name == c.name))
-                .cloned()
+                .filter(|c| !required_champs.iter().any(|rc| rc.id == c.id))
+                .map(|c| (c.id.clone(), (*c).clone()))
                 .collect();
+
+            let filtered_all: Vec<Champion> = filtered_by_id.values().cloned().collect();
+
+            let remaining_champs = ChampionPool {
+                by_id: filtered_by_id,
+                all: filtered_all,
+            };
 
             if let Some(comp) = find_optimal_comp_greedy(
                 &remaining_champs,
                 traits,
                 &required_champs
                     .iter()
-                    .map(|c| c.name.as_str())
+                    .map(|c| c.id.clone())
                     .collect::<Vec<_>>(),
                 remaining_spots,
                 trait_bonuses,
             ) {
-                let all_units: Vec<String> = core_units
+                let all_unit_ids: Vec<ChampionId> = core_unit_ids
                     .iter()
-                    .map(|&name| name.to_string())
-                    .chain(
-                        required_champs
-                            .iter()
-                            .map(|c| c.name.clone())
-                            .chain(comp.units.into_iter()),
-                    )
+                    .cloned()
+                    .chain(required_champs.iter().map(|c| c.id.clone()))
+                    .chain(comp.units)
                     .collect();
 
                 let activated = calculate_trait_activations(
-                    &all_units
-                        .iter()
-                        .filter_map(|name| champions.iter().find(|c| &c.name == name))
-                        .collect::<Vec<_>>(),
+                    champion_pool,
+                    &all_unit_ids,
                     traits,
                     trait_bonuses,
                 );
@@ -135,14 +139,12 @@ pub fn find_optimal_comp_with_requirements(
                 if score > best_score {
                     best_score = score;
                     best_comp = Some(OptimalComp {
-                        units: all_units,
+                        units: all_unit_ids,
                         activated_traits: activated,
                         total_traits_activated: score,
                     });
                 }
             }
-
-            required_champs.clear();
         }
     }
 

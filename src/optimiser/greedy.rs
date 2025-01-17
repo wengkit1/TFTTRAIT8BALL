@@ -1,23 +1,24 @@
-use crate::models::champions::{Champion, OptimalComp, Trait, TraitActivation};
+use crate::models::champions::{
+    Champion, ChampionId, ChampionPool, OptimalComp, Trait, TraitActivation,
+};
 use crate::optimiser::trait_calc::trait_activation::calculate_trait_activations;
 
 pub fn find_optimal_comp_greedy(
-    champions: &[Champion],
+    champion_pool: &ChampionPool,
     traits: &[Trait],
-    required_champions: &[&str],
+    required_champion_ids: &[ChampionId],
     team_size: usize,
     trait_bonuses: &[(&str, u32)],
 ) -> Option<OptimalComp> {
-    let mut team: Vec<&Champion> = Vec::new();
-    for core_name in required_champions {
-        if let Some(champ) = champions.iter().find(|c| &c.name == core_name) {
-            team.push(champ);
-        }
-    }
-
-    let mut available: Vec<&Champion> = champions
+    let mut team: Vec<&Champion> = required_champion_ids
         .iter()
-        .filter(|c| !required_champions.contains(&c.name.as_str()))
+        .filter_map(|id| champion_pool.by_id.get(id))
+        .collect();
+
+    let mut available: Vec<&Champion> = champion_pool
+        .all
+        .iter()
+        .filter(|c| !required_champion_ids.iter().any(|id| id == &c.id))
         .collect();
 
     while team.len() < team_size && !available.is_empty() {
@@ -28,7 +29,10 @@ pub fn find_optimal_comp_greedy(
             let mut test_team = team.clone();
             test_team.push(candidate);
 
-            let activations = calculate_trait_activations(&test_team, traits, trait_bonuses);
+            let test_team_ids: Vec<ChampionId> = test_team.iter().map(|c| c.id.clone()).collect();
+
+            let activations =
+                calculate_trait_activations(champion_pool, &test_team_ids, traits, trait_bonuses);
             let score = calculate_combined_score(&test_team, &activations, candidate, traits);
 
             if score > best_score {
@@ -40,9 +44,13 @@ pub fn find_optimal_comp_greedy(
         team.push(available.remove(best_idx));
     }
 
-    let activations = calculate_trait_activations(&team, traits, trait_bonuses);
+    let final_team_ids: Vec<ChampionId> = team.iter().map(|c| c.id.clone()).collect();
+
+    let activations =
+        calculate_trait_activations(champion_pool, &final_team_ids, traits, trait_bonuses);
+
     Some(OptimalComp {
-        units: team.iter().map(|c| c.name.clone()).collect(),
+        units: final_team_ids,
         activated_traits: activations.clone(),
         total_traits_activated: activations.len(),
     })

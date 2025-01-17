@@ -1,32 +1,158 @@
 [
   {
     "units": [
-      "Renata Glasc",
+      "Nami",
+      "Gangplank",
+      "Swain",
+      "Singed",
+      "Smeech",
+      "Rumble",
+      "Ekko"
+    ],
+    "activated_traits": [
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Scrap",
+        "count": 3,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Form Swapper",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Ambusher",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Chem-Baron",
+        "count": 3,
+        "breakpoint_hit": 3
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      }
+    ],
+    "total_traits_activated": 8
+  },
+  {
+    "units": [
+      "Nami",
+      "Gangplank",
+      "Swain",
+      "Singed",
       "Sevika",
       "Rumble",
-      "Ekko",
       "Rell",
+      "Ambessa"
+    ],
+    "activated_traits": [
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Scrap",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Form Swapper",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 2,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 3,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 3,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "High Roller",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Chem-Baron",
+        "count": 3,
+        "breakpoint_hit": 3
+      },
+      {
+        "name": "Pit Fighter",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      }
+    ],
+    "total_traits_activated": 10
+  },
+  {
+    "units": [
+      "Nami",
+      "Gangplank",
+      "Swain",
+      "Renata Glasc",
+      "Sevika",
       "Ambessa",
+      "Rell",
+      "Rumble",
       "Powder"
     ],
     "activated_traits": [
       {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
         "name": "Scrap",
         "count": 3,
         "breakpoint_hit": 2
       },
       {
-        "name": "Emissary",
-        "count": 1,
-        "breakpoint_hit": 1
-      },
-      {
-        "name": "Sentinel",
+        "name": "Form Swapper",
         "count": 2,
         "breakpoint_hit": 2
       },
       {
-        "name": "Ambusher",
+        "name": "Emissary",
+        "count": 2,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
         "count": 2,
         "breakpoint_hit": 2
       },
@@ -37,7 +163,7 @@
       },
       {
         "name": "Conqueror",
-        "count": 2,
+        "count": 3,
         "breakpoint_hit": 2
       },
       {
@@ -51,162 +177,41 @@
         "breakpoint_hit": 3
       },
       {
+        "name": "Pit Fighter",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
         "name": "Junker King",
         "count": 1,
         "breakpoint_hit": 1
       }
     ],
-    "total_traits_activated": 9
+    "total_traits_activated": 11
   },
   {
     "units": [
+      "Nami",
+      "Gangplank",
+      "Swain",
+      "Singed",
+      "Renata Glasc",
       "Sevika",
       "Renni",
-      "Rumble",
-      "Ekko",
-      "Rell",
-      "Ambessa",
-      "Powder",
-      "Nunu & Willump"
-    ],
-    "activated_traits": [
-      {
-        "name": "Scrap",
-        "count": 3,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Emissary",
-        "count": 1,
-        "breakpoint_hit": 1
-      },
-      {
-        "name": "Sentinel",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Ambusher",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Visionary",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Conqueror",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "High Roller",
-        "count": 1,
-        "breakpoint_hit": 1
-      },
-      {
-        "name": "Chem-Baron",
-        "count": 3,
-        "breakpoint_hit": 3
-      },
-      {
-        "name": "Bruiser",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Junker King",
-        "count": 1,
-        "breakpoint_hit": 1
-      }
-    ],
-    "total_traits_activated": 10
-  },
-  {
-    "units": [
-      "Singed",
-      "Sevika",
-      "Rumble",
-      "Ekko",
-      "Rell",
-      "Ambessa",
-      "Powder",
       "Nunu & Willump",
-      "Elise"
-    ],
-    "activated_traits": [
-      {
-        "name": "Scrap",
-        "count": 3,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Emissary",
-        "count": 1,
-        "breakpoint_hit": 1
-      },
-      {
-        "name": "Sentinel",
-        "count": 3,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Ambusher",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Visionary",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Conqueror",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "High Roller",
-        "count": 1,
-        "breakpoint_hit": 1
-      },
-      {
-        "name": "Chem-Baron",
-        "count": 3,
-        "breakpoint_hit": 3
-      },
-      {
-        "name": "Bruiser",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Junker King",
-        "count": 1,
-        "breakpoint_hit": 1
-      }
-    ],
-    "total_traits_activated": 10
-  },
-  {
-    "units": [
-      "Singed",
-      "Sevika",
-      "Rumble",
-      "Ekko",
       "Rell",
-      "Ambessa",
-      "Powder",
-      "Nunu & Willump",
-      "Elise",
-      "Gangplank"
+      "Rumble"
     ],
     "activated_traits": [
       {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
         "name": "Scrap",
-        "count": 4,
-        "breakpoint_hit": 4
+        "count": 2,
+        "breakpoint_hit": 2
       },
       {
         "name": "Form Swapper",
@@ -224,13 +229,8 @@
         "breakpoint_hit": 2
       },
       {
-        "name": "Ambusher",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
         "name": "Visionary",
-        "count": 2,
+        "count": 3,
         "breakpoint_hit": 2
       },
       {
@@ -245,8 +245,8 @@
       },
       {
         "name": "Chem-Baron",
-        "count": 3,
-        "breakpoint_hit": 3
+        "count": 5,
+        "breakpoint_hit": 5
       },
       {
         "name": "Pit Fighter",

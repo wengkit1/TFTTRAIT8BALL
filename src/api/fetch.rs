@@ -1,5 +1,24 @@
-use crate::models::champions::{Champion, Trait};
+use crate::models::champions::{Champion, ChampionId, Trait};
 use reqwest::Client;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct ChampionRaw {
+    name: String,
+    traits: Vec<String>,
+    cost: u32,
+}
+
+impl From<ChampionRaw> for Champion {
+    fn from(raw: ChampionRaw) -> Self {
+        Champion {
+            id: ChampionId(raw.name.clone()),
+            name: raw.name,
+            traits: raw.traits,
+            cost: raw.cost,
+        }
+    }
+}
 
 pub async fn fetch_tft_data() -> Result<Vec<Champion>, Box<dyn std::error::Error>> {
     let client = Client::new();
@@ -11,12 +30,13 @@ pub async fn fetch_tft_data() -> Result<Vec<Champion>, Box<dyn std::error::Error
     if let Some(sets_obj) = data.get("sets") {
         if let Some(set13) = sets_obj.get("13") {
             if let Some(champions) = set13.get("champions") {
-                let champions: Vec<Champion> = serde_json::from_value(champions.clone())?;
-                let filtered_champions: Vec<Champion> = champions
+                let raw_champions: Vec<ChampionRaw> = serde_json::from_value(champions.clone())?;
+                let champions: Vec<Champion> = raw_champions
                     .into_iter()
+                    .map(Champion::from)
                     .filter(|champion| !champion.traits.is_empty())
                     .collect();
-                return Ok(filtered_champions);
+                return Ok(champions);
             }
         }
     }
