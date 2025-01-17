@@ -2,7 +2,7 @@ mod api;
 mod models;
 mod optimiser;
 use models::champions::OptimalComp;
-use optimiser::greedy::find_optimal_comp_with_requirement;
+use optimiser::greedy::find_optimal_comp_with_requirements;
 use std::fs;
 
 fn save_results(comps: &[OptimalComp], filename: &str) -> Result<(), Box<dyn std::error::Error>> {
@@ -25,15 +25,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     for size in 7..=10 {
         println!("Calculating optimal comp for size {}", size);
         let _core_units = &["Nami", "Gangplank", "Swain"];
-        let trait_bonuses = &[("Conqueror", 1)];
-        let comp = find_optimal_comp_with_requirement(
+        let trait_bonuses = &[];
+        let trait_requirements = &[("Conqueror", 2), ("Chem-Baron", 3)];
+        let comp = find_optimal_comp_with_requirements(
             &champions,
             &traits,
             size,
-            "Conqueror",
-            4,
+            trait_requirements,
             trait_bonuses,
-            3,
+            2,
         );
 
         match &comp {
@@ -45,7 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             None => println!("No valid composition found"),
         }
 
-        println!("Found comp for size {}: {:?}", size, comp); // Debug print
+        println!("Found comp for size {}: {:?}", size, comp);
         optimal_comps.push(comp);
     }
 

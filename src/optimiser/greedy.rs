@@ -5,13 +5,12 @@ use itertools::Itertools;
 pub fn find_optimal_comp_greedy(
     champions: &[Champion],
     traits: &[Trait],
-    core_champions: &[&str],
+    required_champions: &[&str],
     team_size: usize,
-    max_cost: u32,
     trait_bonuses: &[(&str, u32)],
 ) -> Option<OptimalComp> {
     let mut team: Vec<&Champion> = Vec::new();
-    for core_name in core_champions {
+    for core_name in required_champions {
         if let Some(champ) = champions.iter().find(|c| &c.name == core_name) {
             team.push(champ);
         }
@@ -19,8 +18,7 @@ pub fn find_optimal_comp_greedy(
 
     let mut available: Vec<&Champion> = champions
         .iter()
-        .filter(|c| !core_champions.contains(&c.name.as_str()))
-        .filter(|c| c.cost >= max_cost) // Filter by cost
+        .filter(|c| !required_champions.contains(&c.name.as_str()))
         .collect();
 
     while team.len() < team_size && !available.is_empty() {
@@ -98,90 +96,133 @@ fn is_near_breakpoint(count: usize, trait_def: &Trait) -> bool {
         .any(|effect| effect.min_units as usize == count + 1)
 }
 
-pub fn find_optimal_comp_with_requirement(
+pub fn find_optimal_comp_with_requirements(
     champions: &[Champion],
     traits: &[Trait],
     team_size: usize,
-    required_trait: &str,
-    required_count: usize,
+    trait_requirements: &[(&str, usize)],
     trait_bonuses: &[(&str, u32)],
     max_cost: u32,
 ) -> Option<OptimalComp> {
-    // Get number of emblems for the required trait
-    let emblem_count = trait_bonuses
-        .iter()
-        .find(|(t, _)| *t == required_trait)
-        .map(|(_, count)| *count as usize)
-        .unwrap_or(0);
+    let total_required: usize = trait_requirements.iter().map(|(_, count)| count).sum();
 
-    let actual_champs_needed = required_count.saturating_sub(emblem_count);
-
-    let mut trait_champions: Vec<&Champion> = champions
+    if total_required > team_size {
+        return None;
+    }
+    let filtered_champs: Vec<Champion> = champions
         .iter()
-        .filter(|c| c.traits.contains(&required_trait.to_string()))
+        .filter(|c| c.cost <= max_cost)
+        .cloned()
         .collect();
 
-    println!(
-        "Found {} champions with {} trait",
-        trait_champions.len(),
-        required_trait
-    );
+    if trait_requirements.is_empty() {
+        return find_optimal_comp_greedy(&filtered_champs, traits, &[], team_size, trait_bonuses);
+    }
 
     let mut best_comp = None;
     let mut best_score = 0;
 
-    trait_champions.sort_by(|a, b| {
-        let score_a = a.traits.len() * 10 + a.cost as usize * 3;
-        let score_b = b.traits.len() * 10 + b.cost as usize * 2;
-        score_b.cmp(&score_a)
-    });
-
-    for required_combo in trait_champions.iter().combinations(actual_champs_needed) {
-        let remaining_spots = team_size - actual_champs_needed;
-
-        // Filter out used champions for remaining pool
-        let remaining_champs: Vec<Champion> = champions
-            .iter()
-            .filter(|c| !required_combo.iter().any(|rc| rc.name == c.name))
-            .filter(|c| c.cost >= max_cost)
-            .cloned()
-            .collect();
-
-        if let Some(comp) = find_optimal_comp_greedy(
-            &remaining_champs,
-            traits,
-            &required_combo
+    let requirement_data: Vec<(Vec<&Champion>, usize)> = trait_requirements
+        .iter()
+        .map(|(trait_name, required_count)| {
+            let emblem_count = trait_bonuses
                 .iter()
-                .map(|c| c.name.as_str())
-                .collect::<Vec<_>>(),
-            remaining_spots,
-            max_cost,
-            trait_bonuses,
-        ) {
-            let all_units: Vec<String> = required_combo
+                .find(|(t, _)| *t == &trait_name.to_string())
+                .map(|(_, count)| *count as usize)
+                .unwrap_or(0);
+
+            let actual_count = required_count.saturating_sub(emblem_count);
+            let trait_champions: Vec<&Champion> = filtered_champs
                 .iter()
-                .map(|c| c.name.clone())
-                .chain(comp.units.into_iter())
+                .filter(|c| c.traits.contains(&trait_name.to_string()))
+                .filter(|c| c.cost <= max_cost)
                 .collect();
 
-            let activated = calculate_trait_activations(
-                &all_units
-                    .iter()
-                    .filter_map(|name| champions.iter().find(|c| &c.name == name))
-                    .collect::<Vec<_>>(),
-                traits,
-                trait_bonuses,
-            );
+            (trait_champions, actual_count)
+        })
+        .collect();
 
-            let score = activated.len();
-            if score > best_score {
-                best_score = score;
-                best_comp = Some(OptimalComp {
-                    units: all_units,
-                    activated_traits: activated,
-                    total_traits_activated: score,
-                });
+    if requirement_data
+        .iter()
+        .any(|(champs, count)| champs.len() < *count)
+    {
+        return None;
+    }
+
+    let trait_combinations: Vec<Vec<Vec<&Champion>>> = requirement_data
+        .iter()
+        .map(|(trait_champs, count)| {
+            trait_champs
+                .iter()
+                .combinations(*count)
+                .map(|combo| combo.into_iter().copied().collect())
+                .collect()
+        })
+        .collect();
+
+    for combined_combo in trait_combinations.iter().multi_cartesian_product() {
+        let mut required_champs = Vec::new();
+        let mut valid = true;
+
+        // Check if this combination has duplicates
+        for combo in combined_combo {
+            for champ in combo {
+                if required_champs.contains(champ) {
+                    valid = false;
+                    break;
+                }
+                required_champs.push(*champ);
             }
+            if !valid {
+                break;
+            }
+        }
+
+        if valid && required_champs.len() <= team_size {
+            let remaining_spots = team_size - required_champs.len();
+            let remaining_champs: Vec<Champion> = filtered_champs
+                .iter()
+                .filter(|c| !required_champs.iter().any(|rc| rc.name == c.name))
+                .cloned()
+                .collect();
+
+            if let Some(comp) = find_optimal_comp_greedy(
+                &remaining_champs,
+                traits,
+                &required_champs
+                    .iter()
+                    .map(|c| c.name.as_str())
+                    .collect::<Vec<_>>(),
+                remaining_spots,
+                trait_bonuses,
+            ) {
+                let all_units: Vec<String> = required_champs
+                    .iter()
+                    .map(|c| c.name.clone())
+                    .chain(comp.units.into_iter())
+                    .collect();
+
+                let activated = calculate_trait_activations(
+                    &all_units
+                        .iter()
+                        .filter_map(|name| champions.iter().find(|c| &c.name == name))
+                        .collect::<Vec<_>>(),
+                    traits,
+                    trait_bonuses,
+                );
+
+                let score = activated.len();
+                if score > best_score {
+                    best_score = score;
+                    best_comp = Some(OptimalComp {
+                        units: all_units,
+                        activated_traits: activated,
+                        total_traits_activated: score,
+                    });
+                }
+            }
+
+            required_champs.clear();
         }
     }
 
