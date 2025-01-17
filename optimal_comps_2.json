@@ -1,1 +1,219 @@
-[]
+[
+  {
+    "units": [
+      "Rell",
+      "Darius",
+      "Singed",
+      "Renata Glasc",
+      "Smeech",
+      "Nami",
+      "Vladimir"
+    ],
+    "activated_traits": [
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Visionary",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Chem-Baron",
+        "count": 3,
+        "breakpoint_hit": 3
+      },
+      {
+        "name": "Watcher",
+        "count": 2,
+        "breakpoint_hit": 2
+      }
+    ],
+    "total_traits_activated": 7
+  },
+  {
+    "units": [
+      "Draven",
+      "Rell",
+      "Singed",
+      "Renata Glasc",
+      "Smeech",
+      "Nami",
+      "Vladimir",
+      "Amumu"
+    ],
+    "activated_traits": [
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Visionary",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Chem-Baron",
+        "count": 3,
+        "breakpoint_hit": 3
+      },
+      {
+        "name": "Watcher",
+        "count": 2,
+        "breakpoint_hit": 2
+      }
+    ],
+    "total_traits_activated": 7
+  },
+  {
+    "units": [
+      "Draven",
+      "Rell",
+      "Singed",
+      "Renata Glasc",
+      "Smeech",
+      "Nami",
+      "Vladimir",
+      "Amumu",
+      "Blitzcrank"
+    ],
+    "activated_traits": [
+      {
+        "name": "Automata",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Visionary",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Chem-Baron",
+        "count": 3,
+        "breakpoint_hit": 3
+      },
+      {
+        "name": "Watcher",
+        "count": 2,
+        "breakpoint_hit": 2
+      }
+    ],
+    "total_traits_activated": 8
+  },
+  {
+    "units": [
+      "Draven",
+      "Rell",
+      "Singed",
+      "Renata Glasc",
+      "Smeech",
+      "Nami",
+      "Vladimir",
+      "Amumu",
+      "Blitzcrank",
+      "Cassiopeia"
+    ],
+    "activated_traits": [
+      {
+        "name": "Automata",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Sorcerer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Visionary",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Chem-Baron",
+        "count": 3,
+        "breakpoint_hit": 3
+      },
+      {
+        "name": "Dominator",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Watcher",
+        "count": 2,
+        "breakpoint_hit": 2
+      }
+    ],
+    "total_traits_activated": 9
+  }
+]

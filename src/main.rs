@@ -2,7 +2,7 @@ mod api;
 mod models;
 mod optimiser;
 use models::champions::OptimalComp;
-use optimiser::greedy::find_optimal_comp_with_requirements;
+use optimiser::constrained_finder::find_optimal_comp_with_requirements;
 use std::fs;
 
 fn save_results(comps: &[OptimalComp], filename: &str) -> Result<(), Box<dyn std::error::Error>> {
@@ -12,18 +12,13 @@ fn save_results(comps: &[OptimalComp], filename: &str) -> Result<(), Box<dyn std
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Create runtime
     let rt = tokio::runtime::Runtime::new()?;
 
-    // Run async functions inside runtime
     let champions = rt.block_on(api::fetch::fetch_tft_data())?;
     let traits = rt.block_on(api::fetch::fetch_trait_data())?;
 
-    println!("Champions loaded: {}", champions.len());
-
     let mut optimal_comps = Vec::new();
     for size in 7..=10 {
-        println!("Calculating optimal comp for size {}", size);
         let _core_units = &["Nami", "Gangplank", "Swain"];
         let trait_bonuses = &[];
         let trait_requirements = &[("Conqueror", 2), ("Chem-Baron", 3)];
@@ -33,19 +28,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             size,
             trait_requirements,
             trait_bonuses,
-            2,
+            3,
         );
 
-        match &comp {
-            Some(found_comp) => {
-                println!("Found optimal comp:");
-                println!("Units: {:?}", found_comp.units);
-                println!("Traits: {:?}", found_comp.activated_traits);
-            }
-            None => println!("No valid composition found"),
-        }
-
-        println!("Found comp for size {}: {:?}", size, comp);
         optimal_comps.push(comp);
     }
 
