@@ -47,20 +47,52 @@ fn ui(frame: &mut Frame, app: &App) {
 
     let chunks = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([Constraint::Length(3), Constraint::Min(1)])
+        .constraints([
+            Constraint::Length(1),
+            Constraint::Length(1),
+            Constraint::Min(1),
+        ])
         .split(area);
 
-    let size_text = Line::from(vec![
-        Span::raw("Size: "),
-        Span::styled(
-            app.selected_size.to_string(),
-            Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
-        ),
-        Span::raw(" ←→"),
-    ]);
+    // Team size selector
+    let size_text = Line::from(vec![Span::raw(format!(
+        "Team Size: {} ↔",
+        app.selected_size
+    ))]);
+
+    let trait_text = Line::from(vec![Span::raw("Trait: [Type to search traits...]")]);
 
     frame.render_widget(
-        Paragraph::new(size_text).alignment(Alignment::Left),
+        Paragraph::new(size_text).alignment(Alignment::Left).style(
+            Style::default()
+                .bg(if app.active_selector == 0 {
+                    Color::Red
+                } else {
+                    Color::Reset
+                })
+                .fg(if app.active_selector == 0 {
+                    Color::White
+                } else {
+                    Color::Gray
+                }),
+        ),
         chunks[0],
+    );
+
+    frame.render_widget(
+        Paragraph::new(trait_text).alignment(Alignment::Left).style(
+            Style::default()
+                .bg(if app.active_selector == 1 {
+                    Color::Red
+                } else {
+                    Color::Reset
+                })
+                .fg(if app.active_selector == 1 {
+                    Color::White
+                } else {
+                    Color::Gray
+                }),
+        ),
+        chunks[1],
     );
 }
