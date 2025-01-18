@@ -1,3 +1,4 @@
+use crate::ui::app::InputMode;
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyEventKind},
     execute,
@@ -32,20 +33,64 @@ pub fn run(mut app: App) -> io::Result<()> {
     }
 
     disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
+    execute!(terminal.backend_mut(), LeaveAlternateScreen,)?;
     terminal.show_cursor()?;
 
     Ok(())
 }
 
-fn ui(frame: &mut Frame, _app: &App) {
+fn ui(frame: &mut Frame, app: &App) {
     let area = frame.size();
+
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Length(3),
+            Constraint::Length(3),
+            Constraint::Min(1),
+        ])
+        .split(area);
+
+    // Instructions
+    let help_text = match app.input_mode {
+        InputMode::Normal => "← → to move, Enter to select, type to input number, q to quit",
+        InputMode::Typing => "Enter to confirm, Esc to cancel",
+    };
+
     frame.render_widget(
-        Paragraph::new("Press 'q' to quit").alignment(Alignment::Center),
-        area,
+        Paragraph::new(help_text).alignment(Alignment::Center),
+        chunks[0],
     );
+
+    let numbers: Vec<Span> = (7..=10)
+        .map(|num| {
+            if num == app.selected_size {
+                Span::styled(
+                    format!(" {} ", num),
+                    Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+                )
+            } else {
+                Span::styled(format!(" {} ", num), Style::default().fg(Color::Gray))
+            }
+        })
+        .collect();
+
+    let mut spans = vec![Span::raw("Size: [ ")];
+    spans.extend(numbers);
+    spans.push(Span::raw(" ]"));
+
+    let size_line = Line::from(spans);
+
+    frame.render_widget(
+        Paragraph::new(size_line).alignment(Alignment::Left),
+        chunks[1],
+    );
+
+    // Status line
+    let status = match app.input_mode {
+        InputMode::Normal => format!("Selected size: {}", app.selected_size),
+        InputMode::Typing => format!("Typing: {}", app.input_buffer),
+    };
+
+    frame.render_widget(Paragraph::new(status).alignment(Alignment::Left), chunks[2]);
 }
