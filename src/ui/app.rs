@@ -2,6 +2,7 @@ use ::crossterm::event::KeyCode;
 pub struct App {
     pub should_quit: bool,
     pub selected_size: usize,
+    pub max_cost: u32,
     pub active_selector: usize,
 }
 
@@ -10,6 +11,7 @@ impl App {
         Self {
             should_quit: false,
             selected_size: 7,
+            max_cost: 5,
             active_selector: 0,
         }
     }
@@ -21,18 +23,25 @@ impl App {
                 self.active_selector = self.active_selector.saturating_sub(1);
             }
             KeyCode::Down => {
-                self.active_selector = (self.active_selector + 1).min(1);
+                self.active_selector = (self.active_selector + 1).min(4);
             }
-            KeyCode::Left => {
-                if self.active_selector == 0 && self.selected_size > 1 {
-                    self.selected_size -= 1;
+            KeyCode::Left | KeyCode::Right => match self.active_selector {
+                0 => {
+                    if key.code == KeyCode::Left && self.selected_size > 1 {
+                        self.selected_size -= 1;
+                    } else if key.code == KeyCode::Right && self.selected_size < 10 {
+                        self.selected_size += 1;
+                    }
                 }
-            }
-            KeyCode::Right => {
-                if self.active_selector == 0 && self.selected_size < 10 {
-                    self.selected_size += 1;
+                2 => {
+                    if key.code == KeyCode::Left && self.max_cost > 1 {
+                        self.max_cost -= 1;
+                    } else if key.code == KeyCode::Right && self.max_cost < 6 {
+                        self.max_cost += 1;
+                    }
                 }
-            }
+                _ => {}
+            },
             _ => {}
         }
     }

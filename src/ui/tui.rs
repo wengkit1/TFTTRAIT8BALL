@@ -48,51 +48,56 @@ fn ui(frame: &mut Frame, app: &App) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(1),
-            Constraint::Length(1),
+            Constraint::Length(2), // Team Size
+            Constraint::Length(2), // Core Units
+            Constraint::Length(2), // Max Cost
+            Constraint::Length(2), // Trait Requirements
+            Constraint::Length(2), // Trait Bonuses (Emblems)
             Constraint::Min(1),
         ])
+        .margin(1)
         .split(area);
 
-    // Team size selector
     let size_text = Line::from(vec![Span::raw(format!(
         "Team Size: {} ↔",
         app.selected_size
     ))]);
 
-    let trait_text = Line::from(vec![Span::raw("Trait: [Type to search traits...]")]);
+    let core_text = Line::from(vec![Span::raw("Core Units: [Type to add units...]")]);
 
-    frame.render_widget(
-        Paragraph::new(size_text).alignment(Alignment::Left).style(
-            Style::default()
-                .bg(if app.active_selector == 0 {
-                    Color::Red
-                } else {
-                    Color::Reset
-                })
-                .fg(if app.active_selector == 0 {
-                    Color::White
-                } else {
-                    Color::Gray
-                }),
-        ),
-        chunks[0],
-    );
+    let cost_text = Line::from(vec![Span::raw(format!("Max Cost: {} ↔", app.max_cost))]);
 
-    frame.render_widget(
-        Paragraph::new(trait_text).alignment(Alignment::Left).style(
-            Style::default()
-                .bg(if app.active_selector == 1 {
-                    Color::Red
-                } else {
-                    Color::Reset
-                })
-                .fg(if app.active_selector == 1 {
-                    Color::White
-                } else {
-                    Color::Gray
-                }),
-        ),
-        chunks[1],
-    );
+    let trait_req_text = Line::from(vec![Span::raw(
+        "Trait Requirements: [Type to add traits...]",
+    )]);
+
+    let trait_bonus_text = Line::from(vec![Span::raw("Trait Emblems: [Type to add emblems...]")]);
+
+    let texts = [
+        size_text,
+        core_text,
+        cost_text,
+        trait_req_text,
+        trait_bonus_text,
+    ];
+    for (i, text) in texts.iter().enumerate() {
+        frame.render_widget(
+            Paragraph::new(text.clone())
+                .alignment(Alignment::Left)
+                .style(
+                    Style::default()
+                        .bg(if app.active_selector == i {
+                            Color::Red
+                        } else {
+                            Color::Reset
+                        })
+                        .fg(if app.active_selector == i {
+                            Color::White
+                        } else {
+                            Color::Gray
+                        }),
+                ),
+            chunks[i],
+        );
+    }
 }
