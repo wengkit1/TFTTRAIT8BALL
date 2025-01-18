@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     for size in 7..=10 {
         let core_unit_ids: Vec<ChampionId> = vec![
             // ChampionId("Nami".to_string()),
-            ChampionId("Gangplank".to_string()),
+            // ChampionId("Gangplank".to_string()),
             // ChampionId("Swain".to_string()),
         ];
 
@@ -36,7 +36,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             size,
             trait_requirements,
             trait_bonuses,
-            3,
+            5,
             &core_unit_ids,
         );
 

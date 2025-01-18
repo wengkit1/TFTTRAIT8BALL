@@ -1,82 +1,17 @@
 [
   {
     "units": [
-      "Gangplank",
-      "Powder",
-      "Swain",
-      "Draven",
-      "Nami",
+      "Rumble",
+      "Ekko",
       "Camille",
-      "Loris"
+      "Rell",
+      "Ambessa",
+      "Twisted Fate",
+      "Scar"
     ],
     "activated_traits": [
       {
-        "name": "Sorcerer",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
         "name": "Scrap",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Form Swapper",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Emissary",
-        "count": 1,
-        "breakpoint_hit": 1
-      },
-      {
-        "name": "Ambusher",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Conqueror",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Pit Fighter",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Enforcer",
-        "count": 2,
-        "breakpoint_hit": 2
-      }
-    ],
-    "total_traits_activated": 8
-  },
-  {
-    "units": [
-      "Gangplank",
-      "Powder",
-      "Swain",
-      "Draven",
-      "Nami",
-      "Camille",
-      "Loris",
-      "Rell"
-    ],
-    "activated_traits": [
-      {
-        "name": "Sorcerer",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Scrap",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Form Swapper",
         "count": 2,
         "breakpoint_hit": 2
       },
@@ -97,16 +32,26 @@
       },
       {
         "name": "Conqueror",
-        "count": 3,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Pit Fighter",
         "count": 2,
         "breakpoint_hit": 2
       },
       {
         "name": "Enforcer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Firelight",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Quickstriker",
         "count": 2,
         "breakpoint_hit": 2
       }
@@ -115,29 +60,18 @@
   },
   {
     "units": [
-      "Gangplank",
-      "Powder",
-      "Swain",
-      "Draven",
-      "Nami",
+      "Rumble",
+      "Ekko",
       "Camille",
-      "Loris",
       "Rell",
-      "Nunu & Willump"
+      "Ambessa",
+      "Twisted Fate",
+      "Scar",
+      "Amumu"
     ],
     "activated_traits": [
       {
-        "name": "Sorcerer",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
         "name": "Scrap",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Form Swapper",
         "count": 2,
         "breakpoint_hit": 2
       },
@@ -157,22 +91,32 @@
         "breakpoint_hit": 2
       },
       {
-        "name": "Visionary",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
         "name": "Conqueror",
-        "count": 3,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Pit Fighter",
         "count": 2,
         "breakpoint_hit": 2
       },
       {
         "name": "Enforcer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Firelight",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Quickstriker",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Watcher",
         "count": 2,
         "breakpoint_hit": 2
       }
@@ -181,30 +125,24 @@
   },
   {
     "units": [
-      "Gangplank",
-      "Powder",
-      "Swain",
-      "Draven",
-      "Nami",
+      "Rumble",
+      "Ekko",
       "Camille",
-      "Loris",
       "Rell",
-      "Nunu & Willump",
-      "Sett"
+      "Ambessa",
+      "Twisted Fate",
+      "Scar",
+      "Amumu",
+      "Malzahar"
     ],
     "activated_traits": [
       {
-        "name": "Sorcerer",
+        "name": "Automata",
         "count": 2,
         "breakpoint_hit": 2
       },
       {
         "name": "Scrap",
-        "count": 2,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Form Swapper",
         "count": 2,
         "breakpoint_hit": 2
       },
@@ -230,11 +168,6 @@
       },
       {
         "name": "Conqueror",
-        "count": 3,
-        "breakpoint_hit": 2
-      },
-      {
-        "name": "Pit Fighter",
         "count": 2,
         "breakpoint_hit": 2
       },
@@ -244,11 +177,103 @@
         "breakpoint_hit": 2
       },
       {
-        "name": "Bruiser",
+        "name": "Firelight",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Quickstriker",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Watcher",
         "count": 2,
         "breakpoint_hit": 2
       }
     ],
-    "total_traits_activated": 11
+    "total_traits_activated": 12
+  },
+  {
+    "units": [
+      "Rumble",
+      "Ekko",
+      "Camille",
+      "Rell",
+      "Ambessa",
+      "Twisted Fate",
+      "Scar",
+      "Amumu",
+      "Malzahar",
+      "Gangplank"
+    ],
+    "activated_traits": [
+      {
+        "name": "Automata",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Scrap",
+        "count": 3,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Emissary",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Sentinel",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Ambusher",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Visionary",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Conqueror",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Enforcer",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Firelight",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Junker King",
+        "count": 1,
+        "breakpoint_hit": 1
+      },
+      {
+        "name": "Quickstriker",
+        "count": 2,
+        "breakpoint_hit": 2
+      },
+      {
+        "name": "Watcher",
+        "count": 2,
+        "breakpoint_hit": 2
+      }
+    ],
+    "total_traits_activated": 12
   }
 ]

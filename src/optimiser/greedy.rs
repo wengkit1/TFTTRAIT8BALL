@@ -70,9 +70,7 @@ fn calculate_combined_score(
         .iter()
         .map(|activation| match activation.breakpoint_hit {
             1 => 3,
-            2 => 4,
-            3 => 5,
-            _ => 5,
+            _ => 4,
         })
         .sum::<usize>();
 
@@ -87,9 +85,9 @@ fn calculate_combined_score(
 
             if let Some(trait_def) = traits.iter().find(|t| t.name == *trait_name) {
                 match existing_count {
-                    0 => 3,
-                    n if is_near_breakpoint(n, trait_def) => 1,
-                    _ => 1,
+                    0 => 1,
+                    n if is_near_breakpoint(n, trait_def) => 2,
+                    _ => 0,
                 }
             } else {
                 0
