@@ -21,20 +21,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut optimal_comps = Vec::new();
     for size in 7..=10 {
         let core_unit_ids: Vec<ChampionId> = vec![
-            ChampionId("Nami".to_string()),
+            // ChampionId("Nami".to_string()),
             ChampionId("Gangplank".to_string()),
-            ChampionId("Swain".to_string()),
+            // ChampionId("Swain".to_string()),
         ];
 
-        let trait_bonuses = &[("Chem-Baron", 1)];
-        let trait_requirements = &[("Chem-Baron", 3)];
+        let trait_bonuses = &[];
+        let trait_requirements = &[];
         let comp = find_optimal_comp_with_requirements(
             &champion_pool,
             &traits,
             size,
             trait_requirements,
             trait_bonuses,
-            5,
+            3,
             &core_unit_ids,
         );
 

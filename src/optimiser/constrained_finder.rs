@@ -20,22 +20,36 @@ pub fn find_optimal_comp_with_requirements(
         return None;
     }
 
-    let filtered_champs: Vec<&Champion> = champion_pool
+    let cost_filtered_champs: Vec<&Champion> = champion_pool
         .all
         .iter()
         .filter(|c| c.cost <= max_cost)
-        .filter(|c| !core_unit_ids.contains(&c.id))
         .collect();
 
     if trait_requirements.is_empty() {
+        let filtered_by_id: HashMap<ChampionId, Champion> = cost_filtered_champs
+            .iter()
+            .map(|c| (c.id.clone(), (*c).clone()))
+            .collect();
+
+        let cost_filtered_pool = ChampionPool {
+            by_id: filtered_by_id,
+            all: cost_filtered_champs.iter().map(|c| (**c).clone()).collect(),
+        };
         return find_optimal_comp_greedy(
-            champion_pool,
+            &cost_filtered_pool,
             traits,
             core_unit_ids,
             team_size,
             trait_bonuses,
         );
     }
+
+    let filtered_champs: Vec<&Champion> = cost_filtered_champs
+        .iter()
+        .filter(|c| !core_unit_ids.contains(&c.id))
+        .copied()
+        .collect();
 
     let mut best_comp = None;
     let mut best_score = 0;
@@ -98,6 +112,7 @@ pub fn find_optimal_comp_with_requirements(
 
         if valid && required_champs.len() <= team_size {
             let remaining_spots = team_size - required_champs.len() - core_unit_ids.len();
+            println!("Remaining team size: {}", remaining_spots);
             let filtered_by_id: HashMap<ChampionId, Champion> = filtered_champs
                 .iter()
                 .filter(|c| !required_champs.iter().any(|rc| rc.id == c.id))

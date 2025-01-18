@@ -10,16 +10,26 @@ pub fn find_optimal_comp_greedy(
     team_size: usize,
     trait_bonuses: &[(&str, u32)],
 ) -> Option<OptimalComp> {
+    println!("Required champion IDs: {:?}", required_champion_ids);
+
     let mut team: Vec<&Champion> = required_champion_ids
         .iter()
         .filter_map(|id| champion_pool.by_id.get(id))
         .collect();
+
+    println!("Initial team size: {}", team.len());
+    println!(
+        "Initial team champions: {:?}",
+        team.iter().map(|c| &c.name).collect::<Vec<_>>()
+    );
 
     let mut available: Vec<&Champion> = champion_pool
         .all
         .iter()
         .filter(|c| !required_champion_ids.iter().any(|id| id == &c.id))
         .collect();
+
+    println!("Available champions pool size: {}", available.len());
 
     while team.len() < team_size && !available.is_empty() {
         let mut best_score = 0;

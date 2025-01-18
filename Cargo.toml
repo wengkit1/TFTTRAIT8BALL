@@ -1,5 +1,5 @@
 [package]
-name = "TFT_TRAIT8BALL"
+name = "tft_trait_8_ball"
 version = "0.1.0"
 edition = "2021"
 
