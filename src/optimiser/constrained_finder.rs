@@ -1,4 +1,5 @@
-use crate::models::champions::{Champion, ChampionId, ChampionPool, OptimalComp, Trait};
+use crate::models::champions::{Champion, ChampionId, ChampionPool, OptimalComp};
+use crate::models::state;
 use crate::optimiser::{
     greedy::find_optimal_comp_greedy, trait_calc::trait_activation::calculate_trait_activations,
 };
@@ -6,14 +7,16 @@ use itertools::Itertools;
 use std::collections::HashMap;
 
 pub fn find_optimal_comp_with_requirements(
-    champion_pool: &ChampionPool,
-    traits: &[Trait],
     team_size: usize,
     trait_requirements: &[(&str, usize)],
     trait_bonuses: &[(&str, u32)],
     max_cost: u32,
     core_unit_ids: &[ChampionId],
 ) -> Option<OptimalComp> {
+    let context = state::get();
+    let champion_pool = &context.champion_pool;
+    let traits = &context.traits;
+
     let total_required: usize = trait_requirements.iter().map(|(_, count)| count).sum();
 
     if total_required + core_unit_ids.len() > team_size {
@@ -38,7 +41,6 @@ pub fn find_optimal_comp_with_requirements(
         };
         return find_optimal_comp_greedy(
             &cost_filtered_pool,
-            traits,
             core_unit_ids,
             team_size,
             trait_bonuses,
@@ -128,7 +130,6 @@ pub fn find_optimal_comp_with_requirements(
 
             if let Some(comp) = find_optimal_comp_greedy(
                 &remaining_champs,
-                traits,
                 &required_champs
                     .iter()
                     .map(|c| c.id.clone())

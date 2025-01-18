@@ -1,7 +1,10 @@
 mod api;
 mod models;
 mod optimiser;
-use models::champions::{ChampionId, ChampionPool, OptimalComp};
+use models::{
+    champions::{ChampionId, ChampionPool, OptimalComp},
+    state,
+};
 use optimiser::constrained_finder::find_optimal_comp_with_requirements;
 use std::fs;
 
@@ -17,6 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let champions = rt.block_on(api::fetch::fetch_tft_data())?;
     let champion_pool = ChampionPool::with_data(champions);
     let traits = rt.block_on(api::fetch::fetch_trait_data())?;
+    state::init(champion_pool.clone(), traits.clone());
 
     let mut optimal_comps = Vec::new();
     for size in 7..=10 {
@@ -29,8 +33,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let trait_bonuses = &[];
         let trait_requirements = &[];
         let comp = find_optimal_comp_with_requirements(
-            &champion_pool,
-            &traits,
             size,
             trait_requirements,
             trait_bonuses,

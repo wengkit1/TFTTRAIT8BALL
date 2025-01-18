@@ -12,7 +12,7 @@ pub struct Champion {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct ChampionId(pub String);
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ChampionPool {
     pub by_id: HashMap<ChampionId, Champion>,
     pub all: Vec<Champion>,
@@ -32,13 +32,13 @@ impl ChampionPool {
     }
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Trait {
     pub name: String,
     pub effects: Vec<TraitEffect>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct TraitEffect {
     #[serde(rename = "minUnits")]
     pub min_units: u32,
