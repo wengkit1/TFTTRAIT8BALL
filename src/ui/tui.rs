@@ -43,17 +43,18 @@ pub fn run(mut app: App) -> io::Result<()> {
     Ok(())
 }
 
+// in tui.rs
 fn ui(frame: &mut Frame, app: &App) {
     let area = frame.size();
 
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(2),
-            Constraint::Length(2),
-            Constraint::Length(2),
-            Constraint::Length(2),
-            Constraint::Length(2),
+            Constraint::Length(1),
+            Constraint::Length(1),
+            Constraint::Length(1),
+            Constraint::Length(1),
+            Constraint::Length(1),
             Constraint::Min(1),
         ])
         .margin(1)
@@ -70,6 +71,7 @@ fn ui(frame: &mut Frame, app: &App) {
         } else {
             format!("{}, ", app.core_units.join(", "))
         };
+
         Line::from(vec![
             Span::raw("Core Units: ["),
             Span::raw(current_units),
@@ -86,9 +88,7 @@ fn ui(frame: &mut Frame, app: &App) {
             ))])
         }
     };
-
     let cost_text = Line::from(vec![Span::raw(format!("Max Cost: {} ↔", app.max_cost))]);
-
     let trait_req_text = Line::from(vec![Span::raw(
         "Trait Requirements: [Type to add traits...]",
     )]);
@@ -121,5 +121,38 @@ fn ui(frame: &mut Frame, app: &App) {
                 ),
             chunks[i],
         );
+    }
+
+    if app.input_mode == InputMode::Editing
+        && app.active_selector == 1
+        && !app.autocomplete_suggestions.is_empty()
+    {
+        let popup_area = Rect::new(
+            chunks[1].x + 12,
+            chunks[1].y + 1,
+            (area.width as f32 * 0.3) as u16,
+            7,
+        );
+
+        // Create suggestion list
+        let suggestions: Vec<ListItem> = app
+            .autocomplete_suggestions
+            .iter()
+            .enumerate()
+            .take(7)
+            .map(|(i, s)| {
+                let style = if i == app.selected_suggestion {
+                    Style::default().bg(Color::LightRed).fg(Color::White)
+                } else {
+                    Style::default().fg(Color::Gray)
+                };
+                ListItem::new(Line::from(vec![Span::styled(s, style)]))
+            })
+            .collect();
+
+        let suggestions_list = List::new(suggestions).style(Style::default().bg(Color::DarkGray));
+
+        frame.render_widget(Clear, popup_area);
+        frame.render_widget(suggestions_list, popup_area);
     }
 }

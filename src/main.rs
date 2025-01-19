@@ -24,7 +24,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     state::init(champion_pool.clone(), traits.clone());
 
-    let app = ui::app::App::new();
+    let champion_names: Vec<String> = champion_pool.all.iter().map(|c| c.id.0.clone()).collect();
+    let app = ui::app::App::new(champion_names);
     ui::tui::run(app)?;
     // let mut optimal_comps = Vec::new();
     // for size in 7..=10 {
