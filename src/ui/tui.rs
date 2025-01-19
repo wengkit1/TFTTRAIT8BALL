@@ -66,28 +66,28 @@ fn ui(frame: &mut Frame, app: &App) {
     ))]);
 
     let core_text = if app.input_mode == InputMode::Editing && app.active_selector == 1 {
-        let current_units = if app.core_units.is_empty() {
+        let current_units = if app.champion_selector.selected_values.is_empty() {
             String::new()
         } else {
-            format!("{}, ", app.core_units.join(", "))
+            format!("{}, ", app.champion_selector.selected_values.join(", "))
         };
-
         Line::from(vec![
             Span::raw("Core Units: ["),
             Span::raw(current_units),
-            Span::raw(format!("{}_", app.input_buffer)),
+            Span::raw(format!("{}_", app.champion_selector.input_buffer)),
             Span::raw("]"),
         ])
     } else {
-        if app.core_units.is_empty() {
+        if app.champion_selector.selected_values.is_empty() {
             Line::from(vec![Span::raw("Core Units: [Press Enter to add...]")])
         } else {
             Line::from(vec![Span::raw(format!(
                 "Core Units: [{}]",
-                app.core_units.join(", ")
+                app.champion_selector.selected_values.join(", ")
             ))])
         }
     };
+
     let cost_text = Line::from(vec![Span::raw(format!("Max Cost: {} ↔", app.max_cost))]);
     let trait_req_text = Line::from(vec![Span::raw(
         "Trait Requirements: [Type to add traits...]",
@@ -125,7 +125,7 @@ fn ui(frame: &mut Frame, app: &App) {
 
     if app.input_mode == InputMode::Editing
         && app.active_selector == 1
-        && !app.autocomplete_suggestions.is_empty()
+        && !app.champion_selector.suggestions.is_empty()
     {
         let popup_area = Rect::new(
             chunks[1].x + 12,
@@ -133,15 +133,14 @@ fn ui(frame: &mut Frame, app: &App) {
             (area.width as f32 * 0.3) as u16,
             7,
         );
-
-        // Create suggestion list
         let suggestions: Vec<ListItem> = app
-            .autocomplete_suggestions
+            .champion_selector
+            .suggestions
             .iter()
             .enumerate()
             .take(7)
             .map(|(i, s)| {
-                let style = if i == app.selected_suggestion {
+                let style = if i == app.champion_selector.selected_suggestion {
                     Style::default().bg(Color::LightRed).fg(Color::White)
                 } else {
                     Style::default().fg(Color::Gray)
@@ -149,9 +148,7 @@ fn ui(frame: &mut Frame, app: &App) {
                 ListItem::new(Line::from(vec![Span::styled(s, style)]))
             })
             .collect();
-
         let suggestions_list = List::new(suggestions).style(Style::default().bg(Color::DarkGray));
-
         frame.render_widget(Clear, popup_area);
         frame.render_widget(suggestions_list, popup_area);
     }
