@@ -26,7 +26,7 @@ pub fn find_optimal_comp_with_requirements(
     let cost_filtered_champs: Vec<&Champion> = champion_pool
         .all
         .iter()
-        .filter(|c| c.cost <= max_cost)
+        .filter(|c| c.cost <= max_cost || core_unit_ids.contains(&c.id))
         .collect();
 
     if trait_requirements.is_empty() {

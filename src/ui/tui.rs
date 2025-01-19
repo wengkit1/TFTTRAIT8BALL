@@ -1,3 +1,4 @@
+use crate::ui::app::InputMode;
 use crossterm::{
     event::{self, DisableMouseCapture, EnableMouseCapture, Event, KeyEventKind},
     execute,
@@ -48,11 +49,11 @@ fn ui(frame: &mut Frame, app: &App) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
-            Constraint::Length(2), // Team Size
-            Constraint::Length(2), // Core Units
-            Constraint::Length(2), // Max Cost
-            Constraint::Length(2), // Trait Requirements
-            Constraint::Length(2), // Trait Bonuses (Emblems)
+            Constraint::Length(2),
+            Constraint::Length(2),
+            Constraint::Length(2),
+            Constraint::Length(2),
+            Constraint::Length(2),
             Constraint::Min(1),
         ])
         .margin(1)
@@ -63,7 +64,28 @@ fn ui(frame: &mut Frame, app: &App) {
         app.selected_size
     ))]);
 
-    let core_text = Line::from(vec![Span::raw("Core Units: [Type to add units...]")]);
+    let core_text = if app.input_mode == InputMode::Editing && app.active_selector == 1 {
+        let current_units = if app.core_units.is_empty() {
+            String::new()
+        } else {
+            format!("{}, ", app.core_units.join(", "))
+        };
+        Line::from(vec![
+            Span::raw("Core Units: ["),
+            Span::raw(current_units),
+            Span::raw(format!("{}_", app.input_buffer)),
+            Span::raw("]"),
+        ])
+    } else {
+        if app.core_units.is_empty() {
+            Line::from(vec![Span::raw("Core Units: [Press Enter to add...]")])
+        } else {
+            Line::from(vec![Span::raw(format!(
+                "Core Units: [{}]",
+                app.core_units.join(", ")
+            ))])
+        }
+    };
 
     let cost_text = Line::from(vec![Span::raw(format!("Max Cost: {} ↔", app.max_cost))]);
 
