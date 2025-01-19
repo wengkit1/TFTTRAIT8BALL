@@ -23,10 +23,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let traits = rt.block_on(api::fetch::fetch_trait_data())?;
 
     state::init(champion_pool.clone(), traits.clone());
-
+    // println!("{:#?}", traits);
     let champion_names: Vec<String> = champion_pool.all.iter().map(|c| c.id.0.clone()).collect();
-    let app = ui::app::App::new(champion_names);
+    let trait_names: Vec<String> = traits.iter().map(|t| t.name.clone()).collect();
+
+    let app = ui::app::App::new(champion_names, trait_names);
     ui::tui::run(app)?;
+
     // let mut optimal_comps = Vec::new();
     // for size in 7..=10 {
     //     let core_unit_ids: Vec<ChampionId> = vec![

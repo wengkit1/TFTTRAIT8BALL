@@ -66,32 +66,18 @@ fn ui(frame: &mut Frame, app: &App) {
     ))]);
 
     let core_text = if app.input_mode == InputMode::Editing && app.active_selector == 1 {
-        let current_units = if app.champion_selector.selected_values.is_empty() {
-            String::new()
-        } else {
-            format!("{}, ", app.champion_selector.selected_values.join(", "))
-        };
-        Line::from(vec![
-            Span::raw("Core Units: ["),
-            Span::raw(current_units),
-            Span::raw(format!("{}_", app.champion_selector.input_buffer)),
-            Span::raw("]"),
-        ])
+        app.champion_selector.render_editing_text()
     } else {
-        if app.champion_selector.selected_values.is_empty() {
-            Line::from(vec![Span::raw("Core Units: [Press Enter to add...]")])
-        } else {
-            Line::from(vec![Span::raw(format!(
-                "Core Units: [{}]",
-                app.champion_selector.selected_values.join(", ")
-            ))])
-        }
+        app.champion_selector.render_main_text()
     };
 
     let cost_text = Line::from(vec![Span::raw(format!("Max Cost: {} ↔", app.max_cost))]);
-    let trait_req_text = Line::from(vec![Span::raw(
-        "Trait Requirements: [Type to add traits...]",
-    )]);
+
+    let trait_req_text = if app.input_mode == InputMode::Editing && app.active_selector == 3 {
+        app.trait_selector.render_editing_text()
+    } else {
+        app.trait_selector.render_main_text()
+    };
 
     let trait_bonus_text = Line::from(vec![Span::raw("Trait Emblems: [Type to add emblems...]")]);
 
@@ -102,6 +88,7 @@ fn ui(frame: &mut Frame, app: &App) {
         trait_req_text,
         trait_bonus_text,
     ];
+
     for (i, text) in texts.iter().enumerate() {
         frame.render_widget(
             Paragraph::new(text.clone())
@@ -122,34 +109,23 @@ fn ui(frame: &mut Frame, app: &App) {
             chunks[i],
         );
     }
+    if app.input_mode == InputMode::Editing && app.active_selector == 3 {
+        if let Some((popup_area, suggestions_list)) =
+            app.trait_selector
+                .render_popup(&chunks, area, app.active_selector)
+        {
+            frame.render_widget(Clear, popup_area);
+            frame.render_widget(suggestions_list, popup_area);
+        }
+    }
 
-    if app.input_mode == InputMode::Editing
-        && app.active_selector == 1
-        && !app.champion_selector.suggestions.is_empty()
-    {
-        let popup_area = Rect::new(
-            chunks[1].x + 12,
-            chunks[1].y + 1,
-            (area.width as f32 * 0.3) as u16,
-            7,
-        );
-        let suggestions: Vec<ListItem> = app
-            .champion_selector
-            .suggestions
-            .iter()
-            .enumerate()
-            .take(7)
-            .map(|(i, s)| {
-                let style = if i == app.champion_selector.selected_suggestion {
-                    Style::default().bg(Color::LightRed).fg(Color::White)
-                } else {
-                    Style::default().fg(Color::Gray)
-                };
-                ListItem::new(Line::from(vec![Span::styled(s, style)]))
-            })
-            .collect();
-        let suggestions_list = List::new(suggestions).style(Style::default().bg(Color::DarkGray));
-        frame.render_widget(Clear, popup_area);
-        frame.render_widget(suggestions_list, popup_area);
+    if app.input_mode == InputMode::Editing && app.active_selector == 1 {
+        if let Some((popup_area, suggestions_list)) =
+            app.champion_selector
+                .render_popup(&chunks, area, app.active_selector)
+        {
+            frame.render_widget(Clear, popup_area);
+            frame.render_widget(suggestions_list, popup_area);
+        }
     }
 }

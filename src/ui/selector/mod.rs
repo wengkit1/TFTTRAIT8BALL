@@ -1,1 +1,2 @@
-pub mod champion;
+pub mod auto;
+pub mod trait_selector;
